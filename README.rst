@@ -33,7 +33,7 @@ Development version:
     $ git clone git://github.com/greggyNapalm/firebat-manager.git; cd firebat-manager
     $ pip install -r requirements-dev.txt
     $ cp -p firebat-manager.default.cfg firebat-manager.local.cfg
-    $ export FIRE_MNG_CFG=`readlink -e firebat-web.local.cfg`
+    $ export FIRE_MNG_CFG=`readlink -e firebat-manager.local.cfg`
     $ ./run.py
 
 
