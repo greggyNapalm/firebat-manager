@@ -53,10 +53,7 @@ setup(
         'firemanager.status',
         'firemanager.test',
     ],
-    package_data={
-        "docs": [
-            'changelog.rst',
-        ],
+    #package_data={
     #    "firebat": [
     #        "console/defaults.yaml",
     #        "console/phantom.conf.jinja",
@@ -69,7 +66,7 @@ setup(
     #        "result_markdown/less/*.less",
     #        "result_markdown/*.jinja",
     #        ],
-        },
+    #    },
     zip_safe=False,
     install_requires=install_requirements,
     tests_require=['nose'],
