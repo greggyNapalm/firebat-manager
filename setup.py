@@ -15,10 +15,10 @@ except ImportError:
 #from firemanager import __version__
 
 install_requirements = [
-    'Flask',
+    'Flask==0.9',
     'Flask-SQLAlchemy',
     'SQLAlchemy',
-    'celery',
+    'celery==3.0.5',
     'pysqlite',
     'requests',
     'validictory',
