@@ -36,6 +36,12 @@ Development version:
     $ export FIRE_MNG_CFG=`readlink -e firebat-manager.local.cfg`
     $ ./run.py
 
+or
+
+::
+
+    pip install -e git+git://github.com/greggyNapalm/firebat-manager.git#egg=firebat-manager
+
 
 Screenshots
 -----------
