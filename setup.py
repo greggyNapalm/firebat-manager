@@ -12,7 +12,7 @@ try:
 except ImportError:
     from distutils.core import setup
 
-from firemanager import __version__
+#from firemanager import __version__
 
 install_requirements = [
     'Flask',
@@ -35,7 +35,7 @@ with open("docs/changelog.rst") as f:
 
 setup(
     name='firebat-manager',
-    version=__version__,
+    version='0.0.1',
     author='Gregory Komissarov',
     author_email='gregory.komissarov@gmail.com',
     description='REST application to manage load tests',

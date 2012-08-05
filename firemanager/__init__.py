@@ -2,8 +2,8 @@
 # -*- encoding: utf-8 -*-
 
 """
-tankmanager.app
-~~~~~~~~~~~~~~~
+firebat-manager.app
+~~~~~~~~~~~~~~~~~~~
 
 Describes WSGI application.
 """
@@ -15,17 +15,15 @@ from flask import send_from_directory
 from flask.ext.sqlalchemy import SQLAlchemy
 from werkzeug.contrib.fixers import ProxyFix
 
-#from example import example
 from status import status
 from test import test
 
 app = flask.Flask(__name__)
-app.config.from_envvar('TANK_MNJR_CFG')
+app.config.from_envvar('FIRE_MNJR_CFG')
 app.wsgi_app = ProxyFix(app.wsgi_app)  # Fix for old proxyes
 db = SQLAlchemy(app)
 
 # Register different apps
-#app.register_blueprint(example, url_prefix='/example')
 app.register_blueprint(status, url_prefix='/v1/status')
 app.register_blueprint(test, url_prefix='/v1/test')
 
