@@ -1,25 +1,62 @@
+#!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
 """
-example.models
-~~~~~~~~~~~~~~
+firebat-manager.test.models
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Objects mapping for blueprint
 """
 
-from sqlalchemy import Column, Integer, String
-from .. __init__ import db
+from sqlalchemy import *
+#from ..__init__ import db
+#from firemanager import db
+from .. import db
 
 
-class User(db.Model):
-    __tablename__ = 'users'
+class Status(db.Model):
+    __tablename__ = 'status'
     id = Column(Integer, primary_key=True)
-    name = Column(String(50), unique=True)
-    email = Column(String(120), unique=True)
+    name = Column(String(), unique=True)
 
-    def __init__(self, name=None, email=None):
+    def __init__(self, name=None):
         self.name = name
-        self.email = email
 
     def __repr__(self):
-        return '<User %r>' % (self.name)
+        return '<Status %r>' % (self.name)
+
+
+class Test(db.Model):
+    __tablename__ = 'test'
+    id = Column(Integer, primary_key=True)
+    celery_task_id = Column(String)
+    status_id = Column(Integer, ForeignKey('status.id'))
+    added_at = Column(DateTime)
+
+    def __init__(self, id=None, name=None, status_id=None):
+        self.id = id
+        self.name = name
+        self.status_id = status_id
+
+    def __repr__(self):
+        return '<Test %r>' % (self.id)
+
+def init_db():
+    db.create_all()
+    #statuses = [
+    #    Status('added'),
+    #    Status('celery_assigned'),
+    #    Status('working'),
+    #    Status('finishing'),
+    #    Status('ended'),
+    #    Status('failed'),
+    #]
+
+    #for s in statuses:
+    #    db.session.add(s)
+
+    #db.session.commit()
+
+
+if __name__ == '__main__':
+    init_db()

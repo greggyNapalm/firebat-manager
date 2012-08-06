@@ -13,7 +13,9 @@ import validictory
 from firebat.console.helpers import validate as fb_validate
 
 from . import test
+from .models import Status, Test 
 from .. helpers import get_usage_fire
+from .. tasks import add, add1
 
 
 @test.route('/luna/<id>', methods=['GET'])
@@ -24,10 +26,8 @@ def luna_info(id):
     return 'No suck fire', 404
 
 
-@test.route('/firebat/<id>', methods=['POST'])
-def firebat(id):
-    #if int(id) == -1:  # No global fire ID, shud use temporary instead.
-    #    return 'I\'ll make local ID, than'
+@test.route('/firebat', methods=['POST'])
+def firebat():
     test = request.json
     if not test:
         return 'JSON body malformed', 400
@@ -37,4 +37,19 @@ def firebat(id):
     except validictory.validator.ValidationError, e:
         return 'Test schema malformed: %s' % e, 400
 
-    return 'No suck fire'
+    task = add.delay(4, 4)
+    return task.id
+
+@test.route('/firebat/<task_id>', methods=['GET'])
+def firebat_c(task_id):
+    '''Get firebat test state by id'''
+    r = add.AsyncResult(task_id)
+
+    result = {
+        'ready': r.ready()
+    }
+
+    if r.ready():
+        result['result'] = r.get(timeout=5)
+
+    return jsonify(result)

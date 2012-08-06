@@ -12,7 +12,7 @@ import commands
 import multiprocessing
 import collections
 
-from flask import request, jsonify, url_for, abort, redirect, flash
+#from flask import request, jsonify, url_for, abort, redirect, flash
 import validictory
 
 def owner_by_path(path):
