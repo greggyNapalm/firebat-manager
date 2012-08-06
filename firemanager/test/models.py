@@ -9,9 +9,9 @@ Objects mapping for blueprint
 """
 
 from sqlalchemy import *
-#from ..__init__ import db
+from ..__init__ import db
 #from firemanager import db
-from .. import db
+#from .. import db
 
 
 class Status(db.Model):
