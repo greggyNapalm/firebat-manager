@@ -11,7 +11,6 @@ Describes WSGI application.
 import os
 
 import flask
-from flask import send_from_directory
 from flask.ext.sqlalchemy import SQLAlchemy
 from werkzeug.contrib.fixers import ProxyFix
 

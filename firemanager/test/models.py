@@ -11,8 +11,6 @@ Objects mapping for blueprint
 from datetime import datetime
 
 from sqlalchemy import *
-#from ..__init__ import db
-#from firemanager import db
 from .. import db
 
 

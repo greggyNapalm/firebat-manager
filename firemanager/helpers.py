@@ -10,14 +10,11 @@ import os
 from pwd import getpwuid
 import commands
 import multiprocessing
-import collections
-from StringIO import StringIO
-import logging
 
-import validictory
 
 def owner_by_path(path):
     return getpwuid(os.stat(path).st_uid).pw_name
+
 
 def get_usage_fire(lock_pth='/var/lock'):
     is_busy = False
@@ -33,10 +30,12 @@ def get_usage_fire(lock_pth='/var/lock'):
             })
     return {'is_busy': is_busy, 'locks': locks}
 
+
 def get_usage_cpu():
     result = dict(zip(['1m', '5m', '15m'], os.getloadavg()))
     result['cores_num'] = multiprocessing.cpu_count()
     return result
+
 
 def get_usage_disk(path='/home', rec=10):
     result = {}
@@ -47,10 +46,11 @@ def get_usage_disk(path='/home', rec=10):
         result[splt[1]] = splt[0]
     return result
 
+
 def get_hops(fqdn):
-    retcode, mtr_stdout =commands.getstatusoutput(\
+    retcode, mtr_stdout = commands.getstatusoutput(\
         'mtr --report --report-cycles 1 %s' % str(fqdn))
-    
+
     hops = [h.split()[1] for h in mtr_stdout.split('\n')[1:]]
 
     result = {
@@ -58,31 +58,3 @@ def get_hops(fqdn):
         'hops_num': len(hops)
     }
     return result
-
-def get_logger(dst=None, is_debug=False):
-    '''Return logger obj with console hendler.
-    '''
-
-    logger = logging.getLogger('fire-manager')
-    logger.setLevel(logging.DEBUG)
-    formatter = logging.Formatter('%(asctime)s  %(message)s')
-
-    hadlers = []
-    if  isinstance(dst, basestring):
-        hadlers.append(logging.FileHandler(dst))
-
-    if dst and isinstance(dst, StringIO):
-        hadlers.append(logging.StreamHandler(com))
-    else:
-        hadlers.append(logging.StreamHandler())
-
-    if is_debug:
-        lvl = logging.DEBUG
-    else:
-        lvl = logging.INFO
-
-    for h in hadlers:
-        h.setLevel(lvl)
-        h.setFormatter(formatter)
-        logger.addHandler(h)
-    return logger

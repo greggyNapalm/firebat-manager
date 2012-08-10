@@ -11,21 +11,20 @@ Get tanks current status:
     * etc
 """
 import os
-from pwd import getpwuid
 import commands
 import multiprocessing
-import collections
 
-from flask import request, jsonify, url_for, abort, redirect, flash
-import simplejson as json
+from flask import request, jsonify
 
 from . import status
 from .. helpers import get_usage_fire, get_hops
+
 
 def get_usage_cpu():
     result = dict(zip(['1m', '5m', '15m'], os.getloadavg()))
     result['cores_num'] = multiprocessing.cpu_count()
     return result
+
 
 def get_usage_disk(path='/home', rec=10):
     result = {}
@@ -35,6 +34,7 @@ def get_usage_disk(path='/home', rec=10):
         splt = line.split()
         result[splt[1]] = splt[0]
     return result
+
 
 @status.route('/usage/<tgt>', methods=['GET'])
 def usage(tgt):
@@ -47,15 +47,16 @@ def usage(tgt):
         return jsonify(result)
 
     if str(tgt) == 'cpu':
-        return jsonify(get_usage_cpu()) 
+        return jsonify(get_usage_cpu())
 
     if str(tgt) == 'disk':
-        return jsonify(get_usage_disk()) 
+        return jsonify(get_usage_disk())
 
     if str(tgt) == 'fire':
         return jsonify(get_usage_fire())
 
-    return 'No such tgt', 404 
+    return 'No such tgt', 404
+
 
 @status.route('/hops/to', methods=['GET'])
 def hops_to():

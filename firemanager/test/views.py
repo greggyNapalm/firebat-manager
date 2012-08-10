@@ -7,7 +7,7 @@ tankmanager.test
 Launch tests, get their detailt.
 """
 
-from flask import request, jsonify, abort, current_app
+from flask import request, jsonify, current_app
 import validictory
 from firebat.console.helpers import validate as fb_validate
 import pprint
@@ -15,9 +15,9 @@ pp = pprint.PrettyPrinter(indent=4)
 
 from .. import db
 from .. helpers import get_usage_fire
-from .. tasks import add, add1, launch_fire
+from .. tasks import launch_fire
 from . import test
-from .models import Status, Test 
+from .models import Status, Test
 
 
 @test.route('/luna/<id>', methods=['GET'])
@@ -52,7 +52,7 @@ def firebat():
     t = Test(id=test_id,
              name=test['title']['test_name'],
              status_id=Status.query.filter_by(name='added').first().id)
-    
+
     db.session.add(t)
     db.session.commit()
 
@@ -70,6 +70,7 @@ def firebat():
 
     return 'Accepted', 201
 
+
 @test.route('/firebat/<test_id>', methods=['GET'])
 def firebat_c(test_id):
     '''Get firebat test state by id'''
@@ -79,9 +80,10 @@ def firebat_c(test_id):
 
     if t.status_id == Status.query.filter_by(name='added').first().id:
         return 'Test was added, but task scheduling failed. Call support.', 410
-    
-    if t.status_id == Status.query.filter_by(name='celery_assigned').first().id:
-        r = add.AsyncResult(t.celery_task_id)
+
+    if t.status_id == Status.query.filter_by(name='celery_assigned').\
+                      first().id:
+        r = launch_fire.AsyncResult(t.celery_task_id)
 
         result = {
             'status': 'celery_assigned',
@@ -94,5 +96,5 @@ def firebat_c(test_id):
             except Exception, e:
                 result['result'] = 'failed'
                 result['failed_info'] = 'Celery task fails with: %s' % e
-    #pp.pprint(result) 
+
     return jsonify(result)

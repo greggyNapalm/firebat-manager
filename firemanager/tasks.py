@@ -8,52 +8,24 @@ Common for whole app functions.
 """
 
 import os
-#from datetime import datetime
-import time
 import logging
 
 import validictory
 from celery import Celery
-from celery.contrib import rdb
-from firebat.console.helpers import validate, get_logger
+from firebat.console.helpers import validate
 from firebat.console.proc import get_ammo, build_test, start_daemon
 from firebat.console.exceptions import FireEmergencyExit
 
 from firemanager import celeryconfig
 
 
-class StrLogger(object):
-    def __init__(self):
-        self.msgs = {}
-        self.handlers = True
-
-    def add_msg(self, msg, lvl):
-        self.msgs[int(time.time())] = {
-            'msg': msg,
-            'lvl': lvl,
-        }
-
-    def debug(self, msg):
-        self.add_msg(msg, 'debug')
-        
-    def info(self, msg):
-        self.add_msg(msg, 'info')
- 
-    def warn(self, msg):
-        self.add_msg(msg, 'warn')
-        
-    def error(self, msg):
-        self.add_msg(msg, 'error')
-
-    def critical(self, msg):
-        self.add_msg(msg, 'critical')
-
 def get_robo_logger(logs_path, test_id, is_debug=False):
     '''Return logger obj with file hendler.
     '''
     logger = logging.getLogger('root')
     logger.setLevel(logging.DEBUG)
-    formatter = logging.Formatter('%(asctime)s ' + 'test:%s' % test_id + ' %(message)s')
+    formatter = logging.Formatter('%(asctime)s ' + 'test:%s' % test_id +\
+                                  ' %(message)s')
 
     log_path = '%s/test_%s.log' % (logs_path, test_id)
     hadlers = []
@@ -73,18 +45,21 @@ def get_robo_logger(logs_path, test_id, is_debug=False):
 celery = Celery()
 celery.config_from_object(celeryconfig)
 
+
 @celery.task
 def add(x, y):
         #'a' + 4
         #assert False
         return x + y
 
+
 @celery.task
 def add1(x, y):
     z = 0
     for i in xrange(10 ** 10):
-        z = x + y        
-    return x + y
+        z = x + y
+    return z
+
 
 @celery.task
 def launch_fire(test_id, test_cfg, base_path, armorer_api_url=None,
@@ -115,4 +90,4 @@ def launch_fire(test_id, test_cfg, base_path, armorer_api_url=None,
             logger.info('Fire %s launched successfully.' % f['name'])
         else:
             logger.error('Fire start fails: %s.Exit code: %s' % (out, retcode))
-    return 0, 'Supervisors launched successfully.' 
+    return 0, 'Supervisors launched successfully.'

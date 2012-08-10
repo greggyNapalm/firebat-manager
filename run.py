@@ -11,8 +11,9 @@ Launch single instance of app with debug and autoreload on changes.
 import sys
 from firemanager import app
 
+
 def main():
-    host, port = '0.0.0.0', 4444 
+    host, port = '0.0.0.0', 4444
 
     if len(sys.argv) == 2:
         port = sys.argv[1]
