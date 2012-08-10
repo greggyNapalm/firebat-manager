@@ -17,9 +17,10 @@ import multiprocessing
 import collections
 
 from flask import request, jsonify, url_for, abort, redirect, flash
+import simplejson as json
 
 from . import status
-from .. helpers import get_usage_fire
+from .. helpers import get_usage_fire, get_hops
 
 def get_usage_cpu():
     result = dict(zip(['1m', '5m', '15m'], os.getloadavg()))
@@ -55,3 +56,13 @@ def usage(tgt):
         return jsonify(get_usage_fire())
 
     return 'No such tgt', 404 
+
+@status.route('/hops/to', methods=['GET'])
+def hops_to():
+    dst_hosts = request.args.get('hosts', None)
+    if not dst_hosts:
+        return '*hosts* request param is required', 400
+
+    fqdn_lst = dst_hosts.split(',')
+    result = [(name, get_hops(name)) for name in fqdn_lst]
+    return jsonify(result)

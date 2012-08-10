@@ -8,6 +8,8 @@ firebat-manager.test.models
 Objects mapping for blueprint
 """
 
+from datetime import datetime
+
 from sqlalchemy import *
 #from ..__init__ import db
 #from firemanager import db
@@ -30,6 +32,7 @@ class Test(db.Model):
     __tablename__ = 'test'
     id = Column(Integer, primary_key=True)
     celery_task_id = Column(String)
+    celery_out = Column(String)
     status_id = Column(Integer, ForeignKey('status.id'))
     added_at = Column(DateTime)
 
@@ -37,6 +40,7 @@ class Test(db.Model):
         self.id = id
         self.name = name
         self.status_id = status_id
+        self.added_at = datetime.utcnow()
 
     def __repr__(self):
         return '<Test %r>' % (self.id)

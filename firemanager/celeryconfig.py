@@ -12,19 +12,18 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_ENABLE_UTC = True
 
 ## Enables error emails.
-#CELERY_SEND_TASK_ERROR_EMAILS = True
+CELERY_SEND_TASK_ERROR_EMAILS = True
 #
 ## Name and email addresses of recipients
-#ADMINS = (
-#    ("George Costanza", "george@vandelay.com"),
-#    ("Cosmo Kramer", "kosmo@vandelay.com"),
-#)
+ADMINS = (
+    ("SupeHero", "batman@superman.me"),
+)
 #
 ## Email address used as sender (From field).
-#SERVER_EMAIL = "no-reply@vandelay.com"
+SERVER_EMAIL = "batman@superman.me"
 #
 ## Mailserver configuration
-#EMAIL_HOST = "mail.vandelay.com"
-#EMAIL_PORT = 25
+EMAIL_HOST = "127.0.0.1"
+EMAIL_PORT = 25
 ## EMAIL_HOST_USER = "servers"
 ## EMAIL_HOST_PASSWORD = "s3cr3t"
