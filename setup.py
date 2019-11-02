@@ -15,7 +15,7 @@ except ImportError:
 #from firemanager import __version__
 
 install_requirements = [
-    'Flask==0.9',
+    'Flask==1.0',
     'Flask-SQLAlchemy',
     'SQLAlchemy',
     'celery==3.0.5',
