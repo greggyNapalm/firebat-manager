@@ -18,7 +18,7 @@ install_requirements = [
     'Flask==0.9',
     'Flask-SQLAlchemy',
     'SQLAlchemy',
-    'celery==3.0.5',
+    'celery==5.2.2',
     'pysqlite',
     'requests',
     'validictory',
